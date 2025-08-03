@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você Decide: A Jornada do Futebol</title>
+    <style>
+        :root {
+            --cor-fundo: #0a1a2a;
+            --cor-principal: #0d2b45;
+            --cor-secundaria: #1d4b6f; 
+            --cor-destaque: #ffd700;
+            --cor-texto: #ffffff;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .caixa-principal {
+            background-color: var(--cor-principal);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: var(--cor-destaque);
+            margin-bottom: 30px;
+        }
+
+        .caixa-perguntas {
+            font-size: 18px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left; /* Alinhamento à esquerda */
+            padding: 10px; /* Espaçamento interno */
+            line-height: 1.5; /* Espaçamento entre linhas */
+            text-align: justify; /* Texto justificado */
+            hyphens: auto; /* Hifenização para melhor quebra de linha */
+            word-break: break-word; /* Quebra de palavras longas */
+        }
+
+        .caixa-alternativas {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            background-color: var(--cor-secundaria);
+            color: var(--cor-texto);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            text-align: left; /* Alinhamento do texto dos botões */
+        }
+
+        button:hover {
+            background-color: var(--cor-destaque);
+            color: var(--cor-principal);
+            transform: scale(1.02);
+        }
+
+        .caixa-resultado {
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: justify; /* Texto justificado no resultado */
+            padding: 10px; /* Espaçamento interno */
+        }
+
+        .botao-reiniciar {
+            margin-top: 20px;
+            background-color: var(--cor-destaque);
+            color: var(--cor-principal);
+            font-weight: bold;
+            padding: 12px 25px;
+            text-align: center; /* Centraliza o texto do botão */
+            width: 100%; /* Largura total */
+        }
+
+        .botao-reiniciar:hover {
+            background-color: #ffc800;
+        }
+    </style>
+</head>
+<body>
+    <div class="caixa-principal">
+        <h1>Você Decide: A Jornada do Futebol</h1>
+        <div class="caixa-perguntas"></div>
+        <div class="caixa-alternativas"></div>
+        <div class="caixa-resultado">
+            <p class="texto-resultado"></p>
+            <button class="botao-reiniciar" style="display: none;">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        const caixaPrincipal = document.querySelector(".caixa-principal");
+        const caixaPerguntas = document.querySelector(".caixa-perguntas");
+        const caixaAlternativas = document.querySelector(".caixa-alternativas");
+        const caixaResultado = document.querySelector(".caixa-resultado");
+        const textoResultado = document.querySelector(".texto-resultado");
+        const botaoReiniciar = document.querySelector(".botao-reiniciar");
+
+        const perguntas = [
+            {
+                enunciado: "Você é um jovem talento do futebol sendo observado por olheiros. No jogo decisivo, seu time está perdendo por 1x0. No segundo tempo, você recebe a bola na frente do gol, mas tem um companheiro melhor posicionado. O que faz?",
+                alternativas: [
+                    {
+                        texto: "Chuta para tentar o gol, mesmo com ângulo difícil",
+                        afirmacao: "Decidiu chutar e marcou o gol de empate! Seu egoísmo momentâneo foi recompensado e chamou a atenção dos olheiros."
+                    },
+                    {
+                        texto: "Passa para o companheiro que tem chance melhor",
+                        afirmacao: "Optou pelo passe e seu companheiro marcou. Os olheiros admiraram sua visão de jogo e espírito coletivo."
+                    }
+                ]
+            },
+            {
+                enunciado: "Você foi contratado por um grande clube. No primeiro treino, o técnico pede para você definir seu estilo de jogo. Como se posiciona?",
+                alternativas: [
+                    {
+                        texto: "Quero ser um jogador completo, que marca e ataca",
+                        afirmacao: "Trabalhou duro para se tornar um box-to-box, participando de todas as jogadas."
+                    },
+                    {
+                        texto: "Prefiro me especializar em uma posição específica",
+                        afirmacao: "Focou em se tornar especialista em sua posição, desenvolvendo habilidades únicas."
+                    }
+                ]
+            },
+            {
+                enunciado: "Na sua primeira temporada como profissional, você está passando por um jejum de gols. O que faz?",
+                alternativas: [
+                    {
+                        texto: "Fica depois do treino para bater faltas e pênaltis",
+                        afirmacao: "Seu trabalho extra rendeu frutos e você quebrou o jejum com um gol de falta."
+                    },
+                    {
+                        texto: "Procura um psicólogo esportivo para ajudar",
+                        afirmacao: "Ajuda psicológica foi crucial para superar a pressão e recuperar a confiança."
+                    }
+                ]
+            },
+            {
+                enunciado: "Você recebe uma proposta para jogar no exterior por um clube médio, ou pode ficar no Brasil por um grande clube. O que escolhe?",
+                alternativas: [
+                    {
+                        texto: "Aceita o desafio de jogar no exterior",
+                        afirmacao: "A experiência internacional foi difícil no início, mas te transformou em um jogador mais completo."
+                    },
+                    {
+                        texto: "Fica no Brasil pelo grande clube",
+                        afirmacao: "Continuou brilhando no futebol nacional, tornando-se ídolo da torcida."
+                    }
+                ]
+            },
+            {
+                enunciado: "No auge da carreira, você sofre uma grave lesão. Como lida com a recuperação?",
+                alternativas: [
+                    {
+                        texto: "Foca apenas na fisioterapia e retorno aos gramados",
+                        afirmacao: "Sua dedicação exclusiva à recuperação permitiu um retorno mais rápido."
+                    },
+                    {
+                        texto: "Aproveita para estudar e se preparar para vida pós-carreira",
+                        afirmacao: "Equilibrou recuperação com estudos, obtendo licença de treinador durante o período de lesão."
+                    }
+                ]
+            }
+        ];
+
+        let atual = 0;
+        let perguntaAtual;
+        let historiaFinal = "";
+
+        function mostraPergunta() {
+            if (atual >= perguntas.length) {
+                mostraResultado();
+                return;
+            }
+            perguntaAtual = perguntas[atual];
+            caixaPerguntas.textContent = perguntaAtual.enunciado;
+            caixaAlternativas.textContent = "";
+            mostraAlternativas();
+        }
+
+        function mostraAlternativas() {
+            for (const alternativa of perguntaAtual.alternativas) {
+                const botaoAlternativas = document.createElement("button");
+                botaoAlternativas.textContent = alternativa.texto;
+                botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
+                caixaAlternativas.appendChild(botaoAlternativas);
+            }
+        }
+
+        function respostaSelecionada(opcaoSelecionada) {
+            const afirmacoes = opcaoSelecionada.afirmacao;
+            historiaFinal += afirmacoes + " ";
+            atual++;
+            mostraPergunta();
+        }
+
+        function mostraResultado() {
+            caixaPerguntas.textContent = "Sua carreira no futebol:";
+            textoResultado.textContent = historiaFinal;
+            caixaAlternativas.textContent = "";
+            
+            // Mostra o botão de reiniciar
+            botaoReiniciar.style.display = "block";
+            botaoReiniciar.addEventListener("click", reiniciarJogo);
+        }
+
+        function reiniciarJogo() {
+            atual = 0;
+            historiaFinal = "";
+            textoResultado.textContent = "";
+            botaoReiniciar.style.display = "none";
+            mostraPergunta();
+        }
+
+        // Inicia o jogo
+        mostraPergunta();
+    </script>
+</body>
+</html>
